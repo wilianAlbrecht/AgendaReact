@@ -3,6 +3,7 @@ import { useState } from 'react'
 import "./App.css";
 import Todo from "./componets/todo";
 import TodoForm from './componets/TodoForm';
+import todo from './componets/todo';
 
 function App() {
 
@@ -28,7 +29,6 @@ function App() {
   ]);
 
   const addTodo = (text, category) => {
-
     const newTodo = [...todos, {
       id: todos.pop().id + 1,
       text,
@@ -39,6 +39,21 @@ function App() {
 
   setTodos(newTodo)
 
+  };
+
+
+  const removeTodo = (id) =>{
+    const newTodo = [...todos]
+    const filteredTodos = newTodo.filter((todo) => todo.id !== id ? todo : null);
+    setTodos(filteredTodos)
+  };
+
+
+  const completeTodo = (id) =>{
+    const newTodo = [...todos]
+    newTodo.map((todo) => todo.id === id ? todo.isCompleted = !todo.isCompleted : todo)
+
+    setTodos(newTodo)
   }
 
   return (
@@ -46,7 +61,7 @@ function App() {
       <h1>Lista de tarefas</h1>
       <div className="todo-list">
           {todos.map((todo) => (
-            <Todo key={todo.id} todo={todo} />
+            <Todo key={todo.id} todo={todo} removeTodo={removeTodo} completeTodo={completeTodo}/>
           ))}
       </div>
       <TodoForm addTodo={addTodo}/>
